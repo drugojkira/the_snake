@@ -1,5 +1,4 @@
 from random import choice, randint
-
 import pygame
 
 # Инициализация PyGame:
@@ -56,9 +55,7 @@ class GameObject:
 class Apple(GameObject):
     """Класс, унаследованный от GameObject, описывающий яблоко и действия
       с ним"""
-
     def __init__(self):
-
         super().__init__()
         self.body_color = APPLE_COLOR
         self.randomize_position()
@@ -77,6 +74,8 @@ class Apple(GameObject):
 
 
 class Snake(GameObject):
+    """Класс, унаследованный от GameObject, описывающий змейку
+      и её поведение."""
     def __init__(self):
         super().__init__()
         self.length = 1
@@ -171,6 +170,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
 
 
 # Метод draw класса Apple
