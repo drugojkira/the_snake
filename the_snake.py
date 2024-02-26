@@ -44,9 +44,10 @@ clock = pygame.time.Clock()
 class GameObject:
     """Базовый класс, от которого наследуются другие игровые объекты"""
 
-    def __init__(self, position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)):
+    def __init__(self, position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2),
+                 body_color=None):
         self.position = position
-        self.body_color = None
+        self.body_color = body_color
 
     def draw(self, surface):
         """Заготовка метода для отрисовки"""
@@ -58,8 +59,7 @@ class Apple(GameObject):
 
     def __init__(self):
         """Задаёт цвет яблока"""
-        super().__init__()
-        self.body_color = APPLE_COLOR
+        super().__init__(body_color=APPLE_COLOR)
         self.randomize_position()
 
     def randomize_position(self):
@@ -82,18 +82,16 @@ class Snake(GameObject):
 
     def __init__(self):
         """Инициализирует начальное состояние"""
-        super().__init__()
+        super().__init__(body_color=SNAKE_COLOR)
         self.length = 1
         self.positions = [self.position]
         self.direction = choice([UP, DOWN, LEFT, RIGHT])
         self.next_direction = None
-        self.body_color = SNAKE_COLOR
 
-    def update_direction(self):
+    def update_direction(self, direction):
         """Обновляет направление движения"""
-        if self.next_direction:
-            self.direction = self.next_direction
-            self.next_direction = None
+        if direction in [UP, DOWN, LEFT, RIGHT]:
+            self.next_direction = direction
 
     def move(self):
         """Обновляет позицию змейки"""
@@ -145,20 +143,25 @@ def handle_keys(snake):
             pygame.quit()
             raise SystemExit
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP and snake.direction != DOWN:
-                snake.next_direction = UP
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                raise SystemExit
+            elif event.key == pygame.K_UP and snake.direction != DOWN:
+                snake.update_direction(UP)
             elif event.key == pygame.K_DOWN and snake.direction != UP:
-                snake.next_direction = DOWN
+                snake.update_direction(DOWN)
             elif event.key == pygame.K_LEFT and snake.direction != RIGHT:
-                snake.next_direction = LEFT
+                snake.update_direction(LEFT)
             elif event.key == pygame.K_RIGHT and snake.direction != LEFT:
-                snake.next_direction = RIGHT
+                snake.update_direction(RIGHT)
 
 
 def main():
     """Основной цикл игры"""
+    global SPEED
     snake = Snake()
     apple = Apple()
+    record_length = 1
 
     while True:
         clock.tick(SPEED)
@@ -171,11 +174,23 @@ def main():
 
         if snake.get_head_position() == apple.position:
             snake.length += 1
+            record_length = max(record_length, snake.length)
             apple.randomize_position()
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            SPEED = 10
+        elif keys[pygame.K_BACKSPACE]:
+            SPEED = 15
+        elif keys[pygame.K_TAB]:
+            SPEED = 20
 
         screen.fill(BOARD_BACKGROUND_COLOR)
         snake.draw(screen)
         apple.draw(screen)
+        info = ("ESC: выход, SPACE(10)/BACKSPACE(15)/TAB(20):"
+                f"скорость, Record: {record_length}")
+        pygame.display.set_caption(info)
         pygame.display.update()
 
 
