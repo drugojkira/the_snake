@@ -38,8 +38,8 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 # Заголовок окна игрового поля:
 pygame.display.set_caption("Змейка")
 
-# Загрузка звукового эффекта:
-eat_sound = pygame.mixer.Sound("eat_sound.wav")
+# тест не дает это использовть (снять коммент):
+# eat_sound = pygame.mixer.Sound("eat_sound.wav")
 
 # Настройка времени:
 clock = pygame.time.Clock()
