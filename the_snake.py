@@ -204,7 +204,7 @@ def main():
         if snake.get_head_position() == apple.position:
             snake.length += 1
             record_length = max(record_length, snake.length)
-            eat_sound.play()
+            # eat_sound.play()
             apple.randomize_position()
 
         screen.fill(BOARD_BACKGROUND_COLOR)
