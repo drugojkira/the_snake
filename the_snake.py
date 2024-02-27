@@ -2,8 +2,6 @@ from random import choice, randint
 
 import pygame
 
-from pygame.locals import *
-
 # Инициализация PyGame:
 pygame.init()
 
@@ -144,7 +142,7 @@ class Snake(GameObject):
 
     def reset(self):
         """Сбрасывает змейку"""
-        if hasattr(self, 'length'):  
+        if hasattr(self, 'length'):
             show_result(self.length - 1)
         self.length = 1
         self.positions = [self.position]
