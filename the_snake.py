@@ -58,8 +58,10 @@ class GameObject:
         """Рисует ячейку на заданной поверхности"""
         if position is None:
             position = self.position
-        pygame.draw.rect(screen, self.body_color, (position[0], position[1], GRID_SIZE, GRID_SIZE))
-        pygame.draw.rect(screen, BORDER_COLOR, (position[0], position[1], GRID_SIZE, GRID_SIZE), 1)
+        pygame.draw.rect(screen, self.body_color, (position[0], position[1],
+                                                   GRID_SIZE, GRID_SIZE))
+        pygame.draw.rect(screen, BORDER_COLOR, (position[0], position[1],
+                                                GRID_SIZE, GRID_SIZE), 1)
 
     def draw(self):
         """Заготовка метода для отрисовки"""
