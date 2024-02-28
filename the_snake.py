@@ -194,8 +194,8 @@ def main():
         speed = get_speed(speed)
 
         handle_keys(snake)
-        snake.direction, snake.next_direction = (snake.next_direction or
-                                                 snake.direction, None)
+        snake.direction, snake.next_direction = (snake.next_direction
+                                                 or snake.direction, None)
 
         new_head_position = snake.move()
         if is_self_collision(snake.positions[1:], new_head_position):
