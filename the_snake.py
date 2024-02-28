@@ -120,7 +120,7 @@ class Snake(GameObject):
         if len(self.positions) > 0:
             head_rect = pygame.Rect(self.positions[0], (GRID_SIZE, GRID_SIZE))
             self.draw_cell(head_rect)
-    
+
         if len(self.positions) > 1:
             for position in self.positions[1:-1]:
                 rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
