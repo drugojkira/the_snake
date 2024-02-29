@@ -32,7 +32,7 @@ SNAKE_COLOR = (0, 255, 0)
 # Скорость движения змейки:
 SPEED = 20
 
-# Настройка игрового окна:
+# Настройка окна:
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 
 # Заголовок окна игрового поля:
@@ -58,7 +58,7 @@ class GameObject:
         """Рисует ячейку на заданной поверхности"""
         if position is None:
             position = self.position
-        cell_rect = pygame.Rect(position[0], position[1], GRID_SIZE, GRID_SIZE)
+        cell_rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, cell_rect)
         pygame.draw.rect(screen, BORDER_COLOR, cell_rect, 1)
 
@@ -115,20 +115,17 @@ class Snake(GameObject):
             self.positions.pop()
         return new_head_position
 
-    def draw(self, surface):
+    def draw(self):
         """Отрисовывает змейку на экране"""
         if len(self.positions) > 0:
-            head_rect = pygame.Rect(self.positions[0], (GRID_SIZE, GRID_SIZE))
-            self.draw_cell(head_rect)
+            self.draw_cell(self.positions[0])
 
         if len(self.positions) > 1:
             for position in self.positions[1:-1]:
-                rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
-                self.draw_cell(rect)
+                self.draw_cell(position)
 
-            tail_rect = pygame.Rect(self.positions[-1], (GRID_SIZE, GRID_SIZE))
             if pygame.time.get_ticks() % 2 == 0:
-                self.draw_cell(tail_rect)
+                self.draw_cell(self.positions[-1])
 
     def get_head_position(self):
         """Возвращает позицию головы"""
@@ -198,7 +195,7 @@ def main():
             show_result(record_length)
 
         screen.fill(BOARD_BACKGROUND_COLOR)
-        snake.draw(screen)
+        snake.draw()
         apple.draw()
 
         info = ("SPACE - x10, BACKSPACE - x15, TAB - x20 для скорости."
